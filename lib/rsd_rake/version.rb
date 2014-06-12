@@ -1,1 +1,3 @@
-VERSION="0.1"
+module RsdRake
+  VERSION="0.1"
+end
