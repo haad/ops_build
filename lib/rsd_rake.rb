@@ -1,5 +1,12 @@
 require "rsd_rake/version"
+
+require 'rsd_rake/berkshelf'
+require 'rsd_rake/chefspec'
+require 'rsd_rake/kitchen'
+require 'rsd_rake/packer'
 require 'rsd_rake/rsd_task_lib'
+require 'rsd_rake/vagrant'
+
 require 'rake'
 
 lib = File.expand_path('.', __FILE__)

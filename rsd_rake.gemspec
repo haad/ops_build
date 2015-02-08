@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = RsdRake::VERSION
   spec.authors       = ["HAMSIK Adam"]
   spec.email         = ["adh@rsd.com"]
-  spec.summary       = %q{RSD Rake tasks budled for usage in gem repos}
-  spec.description   = %q{RSD Rake tasks budled for usage in gem repos}
+  spec.summary       = %q{RSD Devops related Rake tasks to run packer, berkshelf}
+  spec.description   = %q{RSD Devops related Rake tasks to run packer, berkshelf}
   spec.homepage      = ""
   spec.license       = "BSD"
 

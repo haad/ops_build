@@ -1,1 +1,1 @@
-# RSD Rake tasks used during build process
+# RSD Devops Rake tasks
