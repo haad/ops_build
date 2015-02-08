@@ -6,6 +6,11 @@ module RsdRake
     attr_accessor :berkshelf_dir
 
     def initialize(berks_dir)
+      unless system("berks version")
+        puts(">>> Berks not installed !")
+        exit(1)
+      end
+
       if @berks_dir.empty?
         # Create temporary directory for packer/docker communication
         @berkshelf_dir = Dir::tmpdir+"/"+Dir::Tmpname.make_tmpname('berks', nil)

@@ -10,42 +10,42 @@ require 'erubis'
 
 require 'chef/cookbook/metadata'
 
-rsd_rake = RsdRake::RakeSupport.new
-packer = RsdRake::PackerSupport.new
-berkshelf = RsdRake::BerkshelfSupport.new
-
 namespace 'packer' do
+  packer = RsdRake::PackerSupport.new
+  berkshelf = RsdRake::BerkshelfSupport.new
+
   desc 'Build packer container with template from template.json'
   task :build, :template do |t, args|
-    puts ">>> Building packer template file."
+    puts ">>> Packer using template: #{args[:template]}"
 
-      # Load cookbooks to correct dir.
-      puts ">>>> Vendoring cookbooks with berks to #{berks_dir}"
-      berkshelf.berks_vendor()
+    # Load cookbooks to correct dir.
+    puts ">>>> Vendoring cookbooks with berks to #{berks_dir}"
+    berkshelf.berks_vendor()
 
-      puts ">>>> Packer using template: #{args[:template]}"
+    # Run packer
+    packer.packer_build(args[:template], berkshelf.berkshelf_dir)
 
-      # Run packer
-      packer.packer_build(args[:template], berkshelf.berkshelf_dir)
-
-      berkshelf.berks_cleanup()
+    puts ">>>> Cleaning up cookbooks from system."
+    berkshelf.berks_cleanup()
   end
 end
 
 namespace 'kch' do
+  kitchen = RsdRake::KitchenSupport.new
+
   desc 'Run kitchen converge for given suite'
-  task :cn, :suite do |t, args|
-    system("kitchen converge #{args[:suite]}")
+  task :cnv, :suite do |t, args|
+    kitchen.kitchen_converge(args[:suite])
   end
 
   desc 'Run kitchen verify for given suite'
-  task :vr, :suite do |t, args|
-    system("kitchen verify #{args[:suite]}")
+  task :vrf, :suite do |t, args|
+    kitchen.kitchen_verify(args[:suite])
   end
 
   desc 'Run kitchen test for given platform'
-  task :ts, :suite do |t, args|
-    system("kitchen test #{args[:suite]}")
+  task :tst, :suite do |t, args|
+    kitchen.kitchen_test(args[:suite])
   end
 end
 

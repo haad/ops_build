@@ -3,6 +3,14 @@
 #
 module RsdRake
   class PackerSupport
+
+    def initialize()
+      unless system("packer version")
+        puts(">>> Packer not installed !")
+        exit(1)
+      end
+    end
+
     #
     # Run packer build
     def packer_build(packer_config, berks_dir)
