@@ -19,6 +19,12 @@ lib = File.expand_path('.', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 class OpsBuilder < Thor
+  desc 'validate template', 'validate packer template'
+  def validate_packer(template)
+    packer = OpsBuild::PackerSupport.new
+    packer.packer_validate(template)
+  end
+
   desc 'build template', 'build packer template'
   def build_packer(template)
     packer = OpsBuild::PackerSupport.new
@@ -26,6 +32,12 @@ class OpsBuilder < Thor
     aws = OpsBuild::AwsSupport.new
 
     puts ">> Building VM using packer from template #{template}"
+
+    # Add some config variables
+    packer.packer_add_user_variable(:aws_account_id, aws.aws_get_account_id)
+    packer.packer_add_user_variable(:aws_access_key, aws.aws_get_access_key)
+    packer.packer_add_user_variable(:aws_secret_key, aws.aws_get_secret_key)
+    packer.packer_add_user_variable(:cookbook_path, berkshelf.berkshelf_dir)
 
     # Validate packer template
     packer.packer_validate(template)
@@ -36,11 +48,6 @@ class OpsBuilder < Thor
     # Load cookbooks to correct dir.
     berkshelf.berks_vendor()
     puts ">>>> Vendoring cookbooks with berks to #{berkshelf.berkshelf_dir}"
-
-    packer.packer_add_user_variable(:aws_account_id, aws.aws_get_account_id)
-    packer.packer_add_user_variable(:aws_access_key, aws.aws_get_access_key)
-    packer.packer_add_user_variable(:aws_secret_key, aws.aws_get_secret_key)
-    packer.packer_add_user_variable(:cookbook_path, berkshelf.berkshelf_dir)
 
     # Run packer
     packer.packer_build(template)
