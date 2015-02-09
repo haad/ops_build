@@ -31,6 +31,7 @@ module OpsBuild
       packer_create_var_file()
 
       unless @user_var_file.nil?
+        puts(">>>> Customising packer build with variable file from: #{@user_var_file.path} ")
         packer_options = "-var-file #{@user_var_file.path}"
       end
 

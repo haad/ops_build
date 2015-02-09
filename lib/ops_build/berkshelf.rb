@@ -5,7 +5,7 @@ module OpsBuild
   class BerkshelfSupport
     attr_accessor :berkshelf_dir, :berkshelf_opts
 
-    def initialize(berks_dir=nil, silent=True)
+    def initialize(berks_dir=nil, silent=true)
       unless system("berks version -q")
         puts(">>> Berks not installed !")
         exit(1)
