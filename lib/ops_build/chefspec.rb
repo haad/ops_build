@@ -1,7 +1,7 @@
 #
 # Chefspec management class
 #
-module RsdRake
+module OpsBuild
   class ChefspecSupport
 
   end

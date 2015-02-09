@@ -1,7 +1,7 @@
 #
-# Generic management class
+# AWS management class
 #
-module RsdRake
+module OpsBuild
   class AwsSupport
     def aws_get_account_id
       ENV['AWS_ACCOUNT_ID']
@@ -14,8 +14,5 @@ module RsdRake
     def aws_get_secret_key
       ENV['AWS_SECRET_KEY']
     end
-  end
-  class RakeSupport
-
   end
 end

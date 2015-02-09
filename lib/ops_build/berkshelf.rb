@@ -1,7 +1,7 @@
 #
 # Berkshelf management class
 #
-module RsdRake
+module OpsBuild
   class BerkshelfSupport
     attr_accessor :berkshelf_dir, :berkshelf_opts
 

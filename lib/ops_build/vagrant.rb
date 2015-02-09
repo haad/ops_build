@@ -1,7 +1,7 @@
 #
 # Vagrant management class
 #
-module RsdRake
+module OpsBuild
   class VagrantSupport
 
   end

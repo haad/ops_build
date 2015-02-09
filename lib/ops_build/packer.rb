@@ -1,7 +1,7 @@
 #
 # Packer management class
 #
-module RsdRake
+module OpsBuild
   require 'json'
   require 'tempfile'
 

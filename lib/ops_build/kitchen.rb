@@ -1,7 +1,7 @@
 #
 # Kitchen test management class
 #
-module RsdRake
+module OpsBuild
   class KitchenSupport
     def kitchen_converge(suite)
       system("kitchen converge #{suite}")

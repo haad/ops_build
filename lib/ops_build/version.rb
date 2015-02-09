@@ -1,3 +1,3 @@
-module RsdRake
+module OpsBuild
   VERSION="0.1.4"
 end

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'rsd_build'
+
+OpsBuilder.start(ARGV)
+
+
