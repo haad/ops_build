@@ -22,11 +22,16 @@ namespace 'packer' do
     puts ">>>> Vendoring cookbooks with berks to #{berks_dir}"
     berkshelf.berks_vendor()
 
-    # Run packer
-    packer.packer_build(args[:template], berkshelf.berkshelf_dir)
+    packer.packer_add_user_variable(:aws_access_key, 'access')
+    packer.packer_add_user_variable(:aws_secret_key, 'secret')
+    packer.packer_add_user_variable(:cookbook_path, berkshelf.berkshelf_dir)
 
-    puts ">>>> Cleaning up cookbooks from system."
+    # Run packer
+    packer.packer_build(args[:template])
+
+    puts ">>>> Cleaning up cookbooks/packer files from system."
     berkshelf.berks_cleanup()
+    packer.packer_cleanup()
   end
 end
 
