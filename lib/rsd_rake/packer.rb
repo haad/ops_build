@@ -11,7 +11,7 @@ module RsdRake
     def initialize()
       @user_vars = {}
 
-      unless system("packer version")
+      unless system("packer version 1>/dev/null")
         puts(">>> Packer not installed !")
         exit(1)
       end
@@ -40,7 +40,10 @@ module RsdRake
     #
     # Validate packer template
     def packer_validate(packer_config)
-      system("packer validate #{packer_config}")
+      unless system("packer validate #{packer_config}")
+        puts(">>> Packer template validation failed !")
+        exit(1)
+      end
     end
 
     #
@@ -52,8 +55,7 @@ module RsdRake
       end
     end
 
-    private: packer_create_var_file
-
+    private
     def packer_create_var_file()
       @user_var_file = Tempfile.new('packer-var-file')
       @user_var_file.write(@user_vars.to_json)

@@ -6,24 +6,32 @@ require 'tempfile'
 require 'rbconfig'
 require 'fileutils'
 
-require 'erubis'
+#require 'erubis'
 
-require 'chef/cookbook/metadata'
+#require 'chef/cookbook/metadata'
 
 namespace 'packer' do
-  packer = RsdRake::PackerSupport.new
-  berkshelf = RsdRake::BerkshelfSupport.new
-
   desc 'Build packer container with template from template.json'
   task :build, :template do |t, args|
-    puts ">>> Packer using template: #{args[:template]}"
+    packer = RsdRake::PackerSupport.new
+    berkshelf = RsdRake::BerkshelfSupport.new
+    aws = RsdRake::AwsSupport.new
+
+    puts ">> Building VM using packer from template #{args[:template]}"
+
+    # Validate packer template
+    packer.packer_validate(args[:template])
+
+    # Install missing cookbooks
+    berkshelf.berks_install()
 
     # Load cookbooks to correct dir.
-    puts ">>>> Vendoring cookbooks with berks to #{berks_dir}"
     berkshelf.berks_vendor()
+    puts ">>>> Vendoring cookbooks with berks to #{berkshelf.berkshelf_dir}"
 
-    packer.packer_add_user_variable(:aws_access_key, 'access')
-    packer.packer_add_user_variable(:aws_secret_key, 'secret')
+    packer.packer_add_user_variable(:aws_account_id, aws.aws_get_account_id)
+    packer.packer_add_user_variable(:aws_access_key, aws.aws_get_access_key)
+    packer.packer_add_user_variable(:aws_secret_key, aws.aws_get_secret_key)
     packer.packer_add_user_variable(:cookbook_path, berkshelf.berkshelf_dir)
 
     # Run packer
