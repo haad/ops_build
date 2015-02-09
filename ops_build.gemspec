@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['adh@rsd.com']
   spec.summary       = %q{RSD Devops related build tool to run packer, berkshelf}
   spec.description   = %q{RSD Devops related build tool to run packer, berkshelf}
-  spec.homepage      = "www.rsd.com"
+  spec.homepage      = "http://www.rsd.com"
   spec.license       = 'BSD'
 
   spec.files         = `git ls-files -z`.split("\x0")

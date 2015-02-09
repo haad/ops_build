@@ -8,11 +8,11 @@ require 'thor'
 require 'yaml'
 
 require "ops_build/version"
+require 'ops_build/aws'
 require 'ops_build/berkshelf'
 require 'ops_build/chefspec'
 require 'ops_build/kitchen'
 require 'ops_build/packer'
-require 'ops_build/rsd_task_lib'
 require 'ops_build/vagrant'
 
 lib = File.expand_path('.', __FILE__)
