@@ -41,7 +41,16 @@ module OpsBuild
     #
     # Validate packer template
     def packer_validate(packer_config)
-      unless system("packer validate #{packer_config}")
+      packer_options = ""
+
+      packer_create_var_file()
+
+      unless @user_var_file.nil?
+        puts(">>>> Customising packer build with variable file from: #{@user_var_file.path} ")
+        packer_options = "-var-file #{@user_var_file.path}"
+      end
+
+      unless system("packer validate #{packer_options} #{packer_config}")
         puts(">>> Packer template validation failed !")
         exit(1)
       end
@@ -58,9 +67,11 @@ module OpsBuild
 
     private
     def packer_create_var_file()
-      @user_var_file = Tempfile.new('packer-var-file')
-      @user_var_file.write(@user_vars.to_json)
-      @user_var_file.rewind
+      if @user_var_file.nil?
+        @user_var_file = Tempfile.new('packer-var-file')
+        @user_var_file.write(@user_vars.to_json)
+        @user_var_file.rewind
+      end
     end
   end
 end

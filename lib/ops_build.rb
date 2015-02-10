@@ -39,14 +39,14 @@ class OpsBuilder < Thor
     packer.packer_add_user_variable(:aws_secret_key, aws.aws_get_secret_key)
     packer.packer_add_user_variable(:cookbook_path, berkshelf.berkshelf_dir)
 
-    # Validate packer template
-    packer.packer_validate(template)
-
     # Install missing cookbooks
     berkshelf.berks_install()
 
     # Load cookbooks to correct dir.
     berkshelf.berks_vendor()
+
+    # Validate packer template
+    packer.packer_validate(template)
     puts ">>>> Vendoring cookbooks with berks to #{berkshelf.berkshelf_dir}"
 
     # Run packer
