@@ -45,8 +45,14 @@ class OpsBuilder < Thor
     # Load cookbooks to correct dir.
     berkshelf.berks_vendor()
 
-    # Validate packer template
-    packer.packer_validate(template)
+    begin
+      # Validate packer template
+      packer.packer_validate(template)
+    rescue
+      berkshelf.berks_cleanup()
+      packer.packer_cleanup()
+      exit(1)
+    end
     puts ">>>> Vendoring cookbooks with berks to #{berkshelf.berkshelf_dir}"
 
     # Run packer

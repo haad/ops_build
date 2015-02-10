@@ -52,7 +52,7 @@ module OpsBuild
 
       unless system("packer validate #{packer_options} #{packer_config}")
         puts(">>> Packer template validation failed !")
-        exit(1)
+        raise
       end
     end
 
