@@ -6,7 +6,7 @@ module OpsBuild
   require 'tempfile'
 
   class PackerSupport
-    attr_accessor :user_vars, :user_var_file
+    attr_accessor :user_vars, :user_var_file, :packer_log
 
     def initialize()
       @user_vars = {}
@@ -17,6 +17,8 @@ module OpsBuild
       end
     end
 
+    #
+    # Add name/value pair to users_vars hash which is going to be used later for packer var-file
     def packer_add_user_variable(name, value)
       unless name.nil? and value.nil?
         @user_vars[name] = value
@@ -31,11 +33,16 @@ module OpsBuild
       packer_create_var_file()
 
       unless @user_var_file.nil?
-        puts(">>>> Customising packer build with variable file from: #{@user_var_file.path} ")
+        puts(">>>> Changing packer build with variables file from: #{@user_var_file.path} ")
         packer_options = "-var-file #{@user_var_file.path}"
       end
 
-      system("packer build #{packer_options} #{packer_config}")
+      if @packer_log.nil?
+        packer_create_log_file()
+        puts(">>>> Using file #{@packer_log.path} as log file.")
+      end
+
+      system("packer build #{packer_options} #{packer_config} | tee -a #{@packer_log.path}")
     end
 
     #
@@ -57,15 +64,26 @@ module OpsBuild
     end
 
     #
-    # Clean user_var-file from system
+    # Clean user_var-file/packer_log from system
     def packer_cleanup()
       unless @user_var_file.nil?
         @user_var_file.unlink
         @user_var_file.close
       end
+
+      unless @packer_log.nil?
+        @packer_log.unlink
+        @packer_log.close
+      end
     end
 
     private
+    def packer_create_log_file()
+      if @packer_log.nil?
+        @packer_log = Tempfile.new('packer-log-file')
+      end
+    end
+
     def packer_create_var_file()
       if @user_var_file.nil?
         @user_var_file = Tempfile.new('packer-var-file')

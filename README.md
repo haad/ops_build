@@ -6,3 +6,7 @@ ops_build is simple tool which can be used to as one place to go to use various 
 * buid amazon aws ami with packer
 * run kitchen server spec tests
 * run chefspec tests on cookbooks
+
+TODO:
+
+* Improve logging
