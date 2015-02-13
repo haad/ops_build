@@ -61,8 +61,16 @@ class OpsBuilder < Thor
     end
     puts ">>>> Vendoring cookbooks with berks to #{berkshelf.berkshelf_dir}"
 
-    # Run packer
-    packer.packer_build(template)
+    begin
+      # Run packer
+      packer.packer_build(template)
+    rescue
+      berkshelf.berks_cleanup()
+      packer.packer_cleanup()
+      exit(1)
+    end
+
+    packer.packer_get_ami_id()
 
     puts ">>>> Cleaning up cookbooks/packer files from system."
     berkshelf.berks_cleanup()

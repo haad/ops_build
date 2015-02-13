@@ -34,7 +34,7 @@ module OpsBuild
 
       unless @user_var_file.nil?
         puts(">>>> Changing packer build with variables file from: #{@user_var_file.path} ")
-        packer_options = "-var-file #{@user_var_file.path}"
+        packer_options = "-machine-readable -var-file #{@user_var_file.path}"
       end
 
       if @packer_log.nil?
@@ -42,7 +42,24 @@ module OpsBuild
         puts(">>>> Using file #{@packer_log.path} as log file.")
       end
 
-      system("packer build #{packer_options} #{packer_config} | tee -a #{@packer_log.path}")
+      unless system("packer build #{packer_options} #{packer_config} | tee -a #{@packer_log.path}")
+        puts(">>>> Packer build failed.")
+        raise
+      end
+      puts(">>>>> packer run exit $?")
+    end
+
+    def packer_get_ami_id()
+      # Get AMI id by greping log for given string and then getting last value
+      ami = File.foreach(@packer_log.path).grep(/amazon-ebs,artifact.*,id/).first
+
+      if ami.nil?
+        puts(">>>> Packer build failed.")
+        exit(1)
+      else
+        puts(">>>> Packer built ami: #{ami}")
+        ami.chomp.split(':').last
+      end
     end
 
     #
@@ -53,7 +70,7 @@ module OpsBuild
       packer_create_var_file()
 
       unless @user_var_file.nil?
-        puts(">>>> Customising packer build with variable file from: #{@user_var_file.path} ")
+        puts(">>>> Customizing packer build with variable file from: #{@user_var_file.path} ")
         packer_options = "-var-file #{@user_var_file.path}"
       end
 
