@@ -2,7 +2,7 @@
 # Berkshelf management class
 #
 module OpsBuild
-  class BerkshelfSupport
+  class Berkshelf
     attr_accessor :berkshelf_dir, :berkshelf_opts
 
     def initialize(berks_dir = nil, silent = true)

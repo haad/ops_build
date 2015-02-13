@@ -5,7 +5,7 @@ module OpsBuild
   require 'json'
   require 'tempfile'
 
-  class PackerSupport
+  class Packer
     attr_accessor :user_vars, :user_var_file, :packer_log
 
     def initialize

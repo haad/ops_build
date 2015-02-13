@@ -2,7 +2,7 @@
 # Chefspec management class
 #
 module OpsBuild
-  class ChefspecSupport
+  class Chefspec
 
   end
 end

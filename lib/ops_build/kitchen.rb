@@ -2,7 +2,7 @@
 # Kitchen test management class
 #
 module OpsBuild
-  class KitchenSupport
+  class Kitchen
     def kitchen_converge(suite)
       system("kitchen converge #{suite}")
     end

@@ -2,7 +2,7 @@
 # AWS management class
 #
 module OpsBuild
-  class AwsSupport
+  class Aws
     def aws_get_account_id
       ENV['AWS_ACCOUNT_ID']
     end

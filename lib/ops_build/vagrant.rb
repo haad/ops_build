@@ -2,7 +2,7 @@
 # Vagrant management class
 #
 module OpsBuild
-  class VagrantSupport
+  class Vagrant
 
   end
 end

@@ -7,9 +7,9 @@ module OpsBuild
       option :aws_secret, :type => :string, :aliases => 'S', :desc => 'AWS Secret key'
       option :berk_dir,   :type => :string, :aliases => 'b', :desc => 'Berkshelf cookbook directory path'
       def packer(template)
-        packer = OpsBuild::PackerSupport.new
-        berkshelf = OpsBuild::BerkshelfSupport.new
-        aws = OpsBuild::AwsSupport.new
+        packer = Packer.new
+        berkshelf = Berkshelf.new
+        aws = Aws.new
 
         puts ">> Building VM using packer from template #{template}"
 
