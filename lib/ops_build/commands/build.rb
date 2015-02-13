@@ -20,17 +20,17 @@ module OpsBuild
         packer.packer_add_user_variable(:cookbook_path, berkshelf.berkshelf_dir)
 
         # Install missing cookbooks
-        berkshelf.berks_install()
+        berkshelf.berks_install
 
         # Load cookbooks to correct dir.
-        berkshelf.berks_vendor()
+        berkshelf.berks_vendor
 
         begin
           # Validate packer template
           packer.packer_validate(template)
         rescue
-          berkshelf.berks_cleanup()
-          packer.packer_cleanup()
+          berkshelf.berks_cleanup
+          packer.packer_cleanup
           exit(1)
         end
         puts ">>>> Vendoring cookbooks with berks to #{berkshelf.berkshelf_dir}"
@@ -39,16 +39,16 @@ module OpsBuild
           # Run packer
           packer.packer_build(template)
         rescue
-          berkshelf.berks_cleanup()
-          packer.packer_cleanup()
+          berkshelf.berks_cleanup
+          packer.packer_cleanup
           exit(1)
         end
 
-        packer.packer_get_ami_id()
+        packer.packer_get_ami_id
 
         puts ">>>> Cleaning up cookbooks/packer files from system."
-        berkshelf.berks_cleanup()
-        packer.packer_cleanup()
+        berkshelf.berks_cleanup
+        packer.packer_cleanup
       end
 
       desc 'vagrant TEMPLATE', 'build vagrant template'

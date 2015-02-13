@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = OpsBuild::VERSION
   spec.authors       = ['HAMSIK Adam']
   spec.email         = ['adh@rsd.com']
-  spec.summary       = %q{RSD Devops related build tool to run packer, berkshelf}
-  spec.description   = %q{RSD Devops related build tool to run packer, berkshelf}
-  spec.homepage      = "http://www.rsd.com"
+  spec.summary       = %q(RSD Devops related build tool to run packer, berkshelf)
+  spec.description   = %q(RSD Devops related build tool to run packer, berkshelf)
+  spec.homepage      = 'http://www.rsd.com'
   spec.license       = 'BSD'
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_path = 'lib'
   #spec.require_paths = ['lib']
 
-  spec.add_development_dependency "bundler", "~> 1.6"
+  spec.add_development_dependency 'bundler', "~> 1.6"
   #spec.add_development_dependency "rake"
   #spec.add_development_dependency "thor"
   #spec.add_development_dependency "pry"
