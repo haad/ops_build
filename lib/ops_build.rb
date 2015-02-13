@@ -7,6 +7,9 @@ require 'tempfile'
 require 'thor'
 require 'yaml'
 
+lib = File.expand_path('..', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require "ops_build/version"
 require 'ops_build/aws'
 require 'ops_build/berkshelf'
@@ -14,9 +17,6 @@ require 'ops_build/chefspec'
 require 'ops_build/kitchen'
 require 'ops_build/packer'
 require 'ops_build/vagrant'
-
-lib = File.expand_path('.', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 class OpsBuilder < Thor
   class_option :verbose, :type => :boolean

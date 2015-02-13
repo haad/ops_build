@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'ops_build'
+require File.dirname(__FILE__) + '/../lib/ops_build'
 
 OpsBuilder.start(ARGV)
 
