@@ -2,9 +2,6 @@
 # Packer management class
 #
 module OpsBuild
-  require 'json'
-  require 'tempfile'
-
   class Packer
     attr_accessor :user_vars, :user_var_file, :packer_log
 
