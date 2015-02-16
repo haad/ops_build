@@ -3,44 +3,35 @@
 #
 module OpsBuild
   class Berkshelf
-    attr_accessor :berkshelf_dir, :berkshelf_opts
+    attr_reader :dir, :opts
 
-    def initialize(berks_dir = nil, silent = true)
-      unless system("berks version -q")
-        puts(">>> Berks not installed !")
-        exit(1)
-      end
+    def initialize(dir: nil, silent: true)
+      Validations::check_binary!('berks')
 
-      if @berks_dir.nil?
-        # Create temporary directory for packer/docker communication
-        @berkshelf_dir = Dir::tmpdir + "/" + Dir::Tmpname.make_tmpname('berks', nil)
-      else
-        @berkshelf_dir = berks_dir
-      end
+      @dir = dir || Dir.mktmpdir('berks')
+      @opts = ''
 
-      if silent
-        @berkshelf_opts = '-q'
-      else
-        @berkshelf_opts = ''
-      end
+      @opts << '-q' if silent
     end
 
     #
     # Run berks vendor
-    def berks_vendor
-      system("berks vendor #{@berkshelf_opts} #{@berkshelf_dir}")
+    def vendor
+      OpsBuild.logger.info("Vendoring cookbooks with berks to #{@dir}")
+      Utils::execute("berks vendor #{@opts} #{@dir}", log_prefix: 'berks:')
     end
 
     #
     # Run berks install
-    def berks_install
-      system("berks install #{@berkshelf_opts}")
+    def install
+      OpsBuild.logger.info('Installing cookbooks with berks')
+      Utils::execute("berks install #{@opts}", log_prefix: 'berks:')
     end
 
     #
     # Cleanup Berks directory
-    def berks_cleanup
-      FileUtils.rm_rf(@berkshelf_dir)
+    def cleanup
+      FileUtils.rm_rf(@dir)
     end
   end
 end

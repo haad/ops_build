@@ -3,9 +3,11 @@ require 'rubygems'
 require 'fileutils'
 require 'json'
 require 'rbconfig'
-require 'tempfile'
+require 'tmpdir'
 require 'thor'
+require 'open3'
 require 'yaml'
+require 'logger'
 
 lib = File.expand_path('..', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -21,7 +23,18 @@ require 'ops_build/chefspec'
 require 'ops_build/kitchen'
 require 'ops_build/packer'
 require 'ops_build/vagrant'
+require 'ops_build/validations'
+require 'ops_build/utils'
 
 module OpsBuild
+  def self.logger
+    if @logger.nil?
+      @logger = Logger.new(STDOUT)
+      @logger.formatter = proc do |severity, datetime, progname, msg|
+        "[#{severity}] [#{datetime.strftime('%Y-%m-%d %H:%M:%S')}] #{msg.strip}\n"
+      end
+    end
 
+    @logger
+  end
 end
