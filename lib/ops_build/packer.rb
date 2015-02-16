@@ -21,7 +21,6 @@ module OpsBuild
     #
     # Run packer build
     def build(config)
-      exit(1)
       options = ''
 
       create_var_file
