@@ -80,7 +80,7 @@ module OpsBuild
 
         OpsBuild.logger.info('Running vagrant package')
         Utils::execute(
-            "vagrant package #{options[:only]} --vagrantfile #{path} --output #{options[:output]}",
+            "vagrant package #{options[:only]} --output #{options[:output]}",
             log_prefix: 'vagrant:',
             env: env)
       end
