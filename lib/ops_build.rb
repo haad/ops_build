@@ -33,6 +33,7 @@ module OpsBuild
       @logger.formatter = proc do |severity, datetime, progname, msg|
         "[#{severity}] [#{datetime.strftime('%Y-%m-%d %H:%M:%S')}] #{msg.strip}\n"
       end
+      @logger.level = Logger::INFO
     end
 
     @logger
