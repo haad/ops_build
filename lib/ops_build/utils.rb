@@ -1,6 +1,7 @@
 module OpsBuild
   class Utils
     def self.execute(cmd, log_level: :debug, log_prefix: '', raise_on_failure: true)
+      OpsBuild.logger.debug("Running command '#{cmd}'")
       _, out, wait_thr = Open3.popen2e(cmd)
 
       while line = out.gets

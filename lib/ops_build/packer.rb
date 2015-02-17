@@ -27,10 +27,10 @@ module OpsBuild
 
       unless @user_var_file.nil?
         OpsBuild.logger.info("Changing packer build with variables file from: #{@user_var_file.path}")
-        options = "-machine-readable -var-file #{@user_var_file.path}"
+        options = " -var-file #{@user_var_file.path}"
       end
 
-      Utils::execute("packer build #{options} #{config}")
+      Utils::execute("packer build -color=false -machine-readable #{options} #{config}")
     end
 
     #
