@@ -14,7 +14,7 @@ module OpsBuild
     # Add name/value pair to users_vars hash which is going to be used later for packer var-file
     def add_user_variable(name, value)
       unless name.nil? and value.nil?
-        @user_vars[name] = value
+        @user_vars[name.to_sym] = value
       end
     end
 

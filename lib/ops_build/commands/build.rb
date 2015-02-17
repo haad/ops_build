@@ -5,6 +5,7 @@ module OpsBuild
         option :ec2_region, type: :string, aliases: '-R', desc: 'AWS EC2 region', default: 'us-east-1'
         option :aws_access, type: :string, aliases: '-A', desc: 'AWS Access key'
         option :aws_secret, type: :string, aliases: '-S', desc: 'AWS Secret key'
+        option :params,     type: :string, aliases: '-p', desc: 'path to JSON as params'
       end
 
       desc 'packer TEMPLATE', 'build packer template'
@@ -14,6 +15,9 @@ module OpsBuild
         packer = Packer.new
         berkshelf = Berkshelf.new(dir: options[:berk_dir], silent: false)
         # aws = Aws.new
+
+        raise "JSON #{options[:params]} not found!" unless File.exists?(options[:params])
+        params = JSON.parse(File.read(options[:params]), symbolize_names: true)
 
         OpsBuild.logger.info("Building VM using packer from template #{template}")
 
@@ -34,6 +38,7 @@ module OpsBuild
         packer.add_user_variable(:aws_secret_key, aws_secret_key) if aws_secret_key
         packer.add_user_variable(:aws_region, aws_region) if aws_region
         packer.add_user_variable(:cookbook_path, berkshelf.dir)
+        params.each { |k, v| packer.add_user_variable(k, v) }
 
         begin
           # Install missing cookbooks
