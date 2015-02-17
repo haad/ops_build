@@ -14,8 +14,6 @@ module OpsBuild
       def packer(template)
         packer = Packer.new
         berkshelf = Berkshelf.new(dir: options[:berk_dir], silent: false)
-        # aws = Aws.new
-
         params = if options[:params]
                    raise "JSON #{options[:params]} not found!" unless File.exists?(options[:params])
                    JSON.parse(File.read(options[:params]), symbolize_names: true)
@@ -25,17 +23,9 @@ module OpsBuild
 
         OpsBuild.logger.info("Building VM using packer from template #{template}")
 
-        # aws_access_key = options[:aws_access] || aws.aws_get_access_key
-        # aws_secret_key = options[:aws_secret] || aws.aws_get_secret_key
-        # aws_region = options[:ec2_region] || aws.aws_get_ec2_region
-
         aws_access_key = options[:aws_access] || ENV['AWS_ACCESS_KEY']
         aws_secret_key = options[:aws_secret] || ENV['AWS_SECRET_KEY']
         aws_region     = options[:ec2_region] || ENV['AWS_EC2_REGION']
-
-        # Validations::not_empty!(aws_access_key, :aws_access)
-        # Validations::not_empty!(aws_secret_key, :aws_secret)
-        # Validations::not_empty!(aws_region, :ec2_region)
 
         # Add some config variables
         packer.add_user_variable(:aws_access_key, aws_access_key) if aws_access_key
@@ -68,7 +58,8 @@ module OpsBuild
 
       desc 'vagrant VAGRANTFILE', 'build vagrant box'
       shared_options
-      option :only, type: :string, aliases: '-o', desc: 'Do not create all boxes, just the one passed as argument'
+      option :only,   type: :string, aliases: '-l', desc: 'Do not create all boxes, just the one passed as argument'
+      option :output, type: :string, aliases: '-o', desc: 'Name of the output (box)', default: 'package.box'
       def vagrant(path)
         path = File.expand_path(path)
         raise "Vagrantfile #{path} not found!" unless File.exists?(path)
@@ -89,7 +80,7 @@ module OpsBuild
 
         OpsBuild.logger.info('Running vagrant package')
         Utils::execute(
-            "vagrant package #{options[:only]} --vagrantfile #{path}",
+            "vagrant package #{options[:only]} --vagrantfile #{path} --output #{options[:output]}",
             log_prefix: 'vagrant:',
             env: env)
       end
