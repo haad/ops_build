@@ -1,1 +1,4 @@
 - process manager? (when opsbuild is interrupted, packer build process continues ... )
+- .ovf file
+  - https://www.packer.io/intro/getting-started/vagrant.html
+  - http://pretengineer.com/post/packer-vagrant-infra/
