@@ -52,8 +52,6 @@ module OpsBuild
 
           # Run packer
           packer.build(template)
-
-          packer.get_ami_id
         rescue => e
           OpsBuild.logger.error(e.message)
           exit(1)
