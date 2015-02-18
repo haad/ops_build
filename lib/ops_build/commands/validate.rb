@@ -4,7 +4,7 @@ module OpsBuild
       desc 'packer TEMPLATE', 'validate packer template'
       def packer(template)
         packer = OpsBuild::Packer.new
-        packer.packer_validate(template)
+        packer.validate(template)
       end
     end
   end

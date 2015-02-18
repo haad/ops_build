@@ -30,7 +30,7 @@ module OpsBuild
         options = " -var-file #{@user_var_file.path}"
       end
 
-      Utils::execute("packer build -color=false -machine-readable #{options} #{config}")
+      Utils::execute("packer build -color=false -machine-readable #{options} #{config}", log_prefix: 'packer:')
     end
 
     #
@@ -45,7 +45,7 @@ module OpsBuild
         options = "-var-file #{@user_var_file.path}"
       end
 
-      Utils::execute("packer validate #{options} #{config}")
+      Utils::execute("packer validate #{options} #{config}", log_prefix: 'packer:')
     end
 
     #
