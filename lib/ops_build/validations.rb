@@ -5,7 +5,7 @@ module OpsBuild
     end
 
     def self.check_binary!(bin)
-      raise "Binary '#{bin}' not found!" if `command -v #{bin}`.empty?
+      raise "Binary '#{bin}' not found!" if `which #{bin}`.empty?
     end
   end
 end
