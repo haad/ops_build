@@ -8,6 +8,7 @@ require 'thor'
 require 'open3'
 require 'yaml'
 require 'logger'
+require 'digest'
 
 lib = File.expand_path('..', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -15,6 +16,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'ops_build/commands/build'
 require 'ops_build/commands/kitchen'
 require 'ops_build/commands/validate'
+require 'ops_build/box_indexer'
 require 'ops_build/runner'
 require 'ops_build/version'
 require 'ops_build/aws'
