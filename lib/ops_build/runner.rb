@@ -2,6 +2,10 @@ module OpsBuild
   class Runner < Thor
     class_option :verbose, type: :boolean, default: false
 
+    def self.exit_on_failure?
+      true
+    end
+
     #
     # Adjust global options
     def initialize(*args, &block)
