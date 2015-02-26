@@ -13,18 +13,14 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'http://www.rsd.com'
   spec.license       = 'BSD'
 
+  spec.required_ruby_version = '>= 2.1.0'
+
   spec.files         = `git ls-files -z`.split("\x0")
-  #spec.files = Dir['{bin/*,lib/**/*}'] + %w(ops_build.gemspec Rakefile README.md LICENSE.txt Gemfile)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_path = 'lib'
-  #spec.require_paths = ['lib']
-
-  spec.add_development_dependency 'bundler', '~> 1.6'
-  #spec.add_development_dependency "rake"
-  #spec.add_development_dependency "thor"
-  #spec.add_development_dependency "pry"
+  spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'thor', '~> 0.19.1'
-  #spec.add_runtime_dependency 'net-scp'
+
+  spec.add_development_dependency 'bundler', '~> 1.6'
 end
