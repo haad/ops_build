@@ -83,6 +83,13 @@ module OpsBuild
             "vagrant package #{options[:only]} --output #{options[:output]}",
             log_prefix: 'vagrant:',
             env: env)
+      ensure
+        OpsBuild.logger.info('Running vagrant destroy')
+        Utils::execute(
+            'vagrant destroy -f',
+            log_prefix: 'vagrant',
+            env: env
+        )
       end
     end
   end
