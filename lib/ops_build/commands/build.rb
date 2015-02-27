@@ -64,6 +64,8 @@ module OpsBuild
         path = File.expand_path(path)
         raise "Vagrantfile #{path} not found!" unless File.exists?(path)
 
+        # TODO: parse jason params -> 'base_url'
+
         env = { 'VAGRANT_CWD' => File.dirname(path) }
         if options[:params]
          raise "JSON #{options[:params]} not found!" unless File.exists?(options[:params])
@@ -90,6 +92,7 @@ module OpsBuild
             log_prefix: 'vagrant',
             env: env
         )
+        # TODO: vboxmanage
       end
     end
   end
