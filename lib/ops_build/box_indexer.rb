@@ -22,7 +22,7 @@ module OpsBuild
 
       Dir.glob("#{@dir}/*.box").each do |path|
         filename = File.basename(path)
-        m = /^#{@name}[\_\-](?<version>[0-9]+(\.[0-9]+){3,}(\-[0-9]+)?)\.box$/.match(filename)
+        m = /^#{@name}[\_\-](?<version>[0-9]+(\.[0-9A-Z]+){1,}([\-\.][0-9]+))\.box$/.match(filename)
         next if m.nil?
 
         OpsBuild.logger.debug("Found box '#{filename}'")
