@@ -46,12 +46,12 @@ module OpsBuild
       raise "Unknown checksum type '#{@checksum_type}'!" unless %w(sha1 sha2 md5 rmd160).include?(@checksum_type.to_s.downcase)
     end
 
-
     def write(hash)
       File.open(@out, 'w+') { |f| f.write(JSON.pretty_generate(hash)) }
     end
+
     def box_info(path, version)
-      {
+      out = {
           version:   version,
           providers: [{
                           name:          'virtualbox',
@@ -60,6 +60,11 @@ module OpsBuild
                           checksum:      checksum(path)
                       }]
       }
+
+      metadata_path = "#{path}.metadata"
+      out.merge(JSON.parse(File.read(metadata_path))) if File.exists?(metadata_path)
+
+      out
     end
 
     def checksum(path)
