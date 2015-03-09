@@ -80,20 +80,20 @@ module OpsBuild
             log_prefix: 'vagrant:',
             env: env)
 
+        uuid = SecureRandom.uuid
+        OpsBuild.logger.info("Running vagrant ssh cmd 'info > /vagrant/#{uuid}'")
+        Utils::execute(
+        "vagrant ssh #{options[:only]} -c 'info > /vagrant/#{uuid}'",
+        log_prefix: 'vagrant:',
+        env: env)
+        info_path = File.join(env['VAGRANT_CWD'], uuid)
+        FileUtils.cp(info_path, "#{options[:output]}.metadata")
+
         OpsBuild.logger.info('Running vagrant package')
         Utils::execute(
             "vagrant package #{options[:only]} --output #{options[:output]}",
             log_prefix: 'vagrant:',
             env: env)
-
-        uuid = SecureRandom.uuid
-        OpsBuild.logger.info("Running vagrant ssh cmd 'info > /vagrant/#{uuid}'")
-        Utils::execute(
-            "vagrant ssh #{options[:only]} -c 'info > /vagrant/#{uuid}'",
-            log_prefix: 'vagrant:',
-            env: env)
-        info_path = File.join(env['VAGRANT_CWD'], uuid)
-        FileUtils.cp(info_path, "#{options[:output]}.metadata")
       ensure
         OpsBuild.logger.info('Running vagrant destroy')
         Utils::execute(
