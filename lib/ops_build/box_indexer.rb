@@ -62,7 +62,7 @@ module OpsBuild
       }
 
       metadata_path = "#{path}.metadata"
-      out.merge(JSON.parse(File.read(metadata_path))) if File.exists?(metadata_path)
+      out.merge!(JSON.parse(File.read(metadata_path))) if File.exists?(metadata_path)
 
       out
     end
